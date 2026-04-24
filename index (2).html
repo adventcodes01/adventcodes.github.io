@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AAA — GIS & Remote Sensing Professional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  /* ═══════════════════════════════════════════
+     TOKENS & RESET
+  ═══════════════════════════════════════════ */
+  :root {
+    --bg:        #0b0e14;
+    --surface:   #111520;
+    --card:      #161b27;
+    --border:    rgba(255,255,255,.07);
+    --accent:    #3dffc0;
+    --accent2:   #5b8cff;
+    --accent3:   #ff6b6b;
+    --text:      #e8ecf4;
+    --muted:     #7a8299;
+    --syne:      'Syne', sans-serif;
+    --dm:        'DM Sans', sans-serif;
+    --mono:      'JetBrains Mono', monospace;
+    --r:         10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--dm);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; display: block; }
+  ul { list-style: none; }
+
+  /* ═══════════════════════════════════════════
+     SCROLLBAR
+  ═══════════════════════════════════════════ */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* ═══════════════════════════════════════════
+     NAV
+  ═══════════════════════════════════════════ */
+  #navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(11,14,20,.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: padding .3s;
+  }
+  #navbar .logo {
+    font-family: var(--syne);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: .02em;
+  }
+  #navbar nav { display: flex; gap: 1.8rem; flex-wrap: wrap; }
+  #navbar nav a {
+    font-family: var(--dm);
+    font-size: .82rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  #navbar nav a:hover, #navbar nav a.active { color: var(--accent); text-decoration: none; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+  /* ═══════════════════════════════════════════
+     HERO
+  ═══════════════════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 7rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  /* animated mesh background */
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 40%, rgba(61,255,192,.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 80% 70%, rgba(91,140,255,.07) 0%, transparent 60%);
+    animation: meshPulse 8s ease-in-out infinite alternate;
+  }
+  @keyframes meshPulse {
+    from { opacity: .6; transform: scale(1); }
+    to   { opacity: 1; transform: scale(1.05); }
+  }
+  /* grid lines */
+  #hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 760px; text-align: center;
+  }
+  .hero-chip {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(61,255,192,.1);
+    border: 1px solid rgba(61,255,192,.25);
+    color: var(--accent);
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .08em;
+    padding: .35rem .9rem; border-radius: 100px;
+    margin-bottom: 1.5rem;
+    animation: fadeSlideDown .8s ease both;
+  }
+  .hero-chip::before { content: '●'; font-size: .5rem; animation: blink 1.4s infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .2; } }
+  .hero-name {
+    font-family: var(--syne);
+    font-size: clamp(2.8rem, 7vw, 5.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+    animation: fadeSlideUp .9s ease .1s both;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-tagline {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1rem;
+    animation: fadeSlideUp .9s ease .2s both;
+  }
+  .hero-tagline strong { color: var(--text); font-weight: 500; }
+  /* typewriter role */
+  .typewriter-wrap {
+    font-family: var(--mono);
+    font-size: clamp(.85rem, 2vw, 1rem);
+    color: var(--accent2);
+    margin-bottom: 2rem;
+    min-height: 1.6rem;
+    animation: fadeSlideUp .9s ease .3s both;
+  }
+  .typewriter-wrap::after { content: '|'; animation: blink .7s infinite; }
+  .hero-edu {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.2rem 1.6rem;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 2rem;
+    animation: fadeSlideUp .9s ease .4s both;
+  }
+  .hero-edu p { font-size: .82rem; color: var(--muted); margin-bottom: .35rem; }
+  .hero-edu p strong { color: var(--text); }
+  .hero-edu p:last-child { margin-bottom: 0; }
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center;
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp .9s ease .5s both;
+  }
+  .pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .3rem .8rem;
+    font-size: .75rem; color: var(--muted);
+    font-family: var(--mono);
+  }
+  .pill strong { color: var(--accent); }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeSlideUp .9s ease .6s both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .7rem 1.6rem; border-radius: 8px;
+    font-family: var(--syne); font-weight: 600; font-size: .9rem;
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(-2px); text-decoration: none; }
+  .btn-primary {
+    background: var(--accent); color: #0b0e14;
+    box-shadow: 0 0 20px rgba(61,255,192,.25);
+  }
+  .btn-primary:hover { box-shadow: 0 0 32px rgba(61,255,192,.45); }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .4rem;
+    color: var(--muted); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+    animation: fadeSlideUp 1s ease .9s both;
+  }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+  @keyframes fadeSlideUp   { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+
+  /* ═══════════════════════════════════════════
+     SECTIONS COMMON
+  ═══════════════════════════════════════════ */
+  section { padding: 6rem 3rem; }
+  section:nth-child(even) { background: var(--surface); }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-header { margin-bottom: 3rem; }
+  .section-label {
+    display: inline-block;
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .section-title {
+    font-family: var(--syne); font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800; line-height: 1.1;
+  }
+  .section-desc { color: var(--muted); margin-top: .75rem; max-width: 560px; }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ═══════════════════════════════════════════
+     ABOUT
+  ═══════════════════════════════════════════ */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 320px; gap: 4rem; align-items: start;
+  }
+  .about-text h3 {
+    font-family: var(--syne); font-size: 1.05rem; color: var(--accent);
+    margin: 2rem 0 .8rem; font-weight: 600;
+  }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: .95rem; }
+  .about-text p strong { color: var(--text); }
+  .about-pillars { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .9rem; }
+  .pillar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--r);
+    padding: .9rem 1.1rem;
+  }
+  .pillar strong { color: var(--text); font-size: .9rem; display: block; margin-bottom: .25rem; }
+  .pillar span { color: var(--muted); font-size: .83rem; }
+  .about-sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
+  .profile-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    text-align: center;
+  }
+  .profile-card-img {
+    width: 100%; height: 220px; object-fit: cover;
+    background: linear-gradient(135deg, #1a2240, #0e1520);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--syne); font-size: 5rem; color: var(--accent);
+    font-weight: 800;
+  }
+  .profile-card-body { padding: 1.2rem 1.4rem; }
+  .profile-card-body h4 { font-family: var(--syne); font-weight: 700; font-size: 1.05rem; }
+  .profile-card-body p { color: var(--muted); font-size: .82rem; margin-top: .2rem; }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.2rem 1.4rem;
+  }
+  .contact-card h4 { font-family: var(--syne); font-weight: 700; font-size: .85rem; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .9rem; }
+  .contact-row { display: flex; gap: .6rem; align-items: flex-start; margin-bottom: .6rem; font-size: .83rem; }
+  .contact-row span { color: var(--muted); }
+  .contact-row a { color: var(--text); word-break: break-all; }
+  .contact-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+
+  /* ═══════════════════════════════════════════
+     SKILLS
+  ═══════════════════════════════════════════ */
+  .skills-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .tab-btn {
+    padding: .45rem 1rem; border-radius: 6px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); font-family: var(--dm); font-size: .82rem; cursor: pointer;
+    transition: .2s;
+  }
+  .tab-btn.active, .tab-btn:hover { background: var(--accent); color: #0b0e14; border-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.1rem 1.2rem;
+  }
+  .skill-group-title { font-family: var(--syne); font-weight: 700; font-size: .78rem; color: var(--accent); letter-spacing: .07em; text-transform: uppercase; margin-bottom: .7rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .stag {
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: .18rem .55rem;
+    font-family: var(--mono); font-size: .7rem;
+    color: var(--muted);
+    transition: .2s;
+  }
+  .stag:hover { color: var(--accent); border-color: var(--accent); background: rgba(61,255,192,.06); }
+
+  /* ═══════════════════════════════════════════
+     EXPERIENCE
+  ═══════════════════════════════════════════ */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .tl-item { position: relative; padding-bottom: 3rem; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: -2.375rem; top: .35rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .tl-meta {
+    display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+    margin-bottom: .6rem;
+  }
+  .tl-date {
+    font-family: var(--mono); font-size: .72rem;
+    color: var(--accent); background: rgba(61,255,192,.08);
+    border: 1px solid rgba(61,255,192,.2);
+    padding: .2rem .6rem; border-radius: 4px;
+  }
+  .tl-type {
+    font-family: var(--mono); font-size: .7rem; color: var(--muted);
+    background: var(--card); border: 1px solid var(--border);
+    padding: .2rem .6rem; border-radius: 4px; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .tl-title { font-family: var(--syne); font-weight: 700; font-size: 1.05rem; margin-bottom: .15rem; }
+  .tl-org { color: var(--muted); font-size: .87rem; margin-bottom: .8rem; }
+  .tl-list { padding-left: 1.1rem; display: flex; flex-direction: column; gap: .45rem; }
+  .tl-list li {
+    color: var(--muted); font-size: .88rem;
+    position: relative;
+    padding-left: .5rem;
+    list-style: disc;
+  }
+  .tl-list li strong { color: var(--text); }
+
+  /* ═══════════════════════════════════════════
+     PROJECTS
+  ═══════════════════════════════════════════ */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.4rem; }
+  .proj-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    cursor: pointer;
+  }
+  .proj-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    border-color: rgba(61,255,192,.25);
+  }
+  .proj-thumb {
+    height: 160px;
+    background: linear-gradient(135deg, #1a2240, #0e1520);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    overflow: hidden; position: relative;
+  }
+  .proj-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .proj-thumb-fallback { font-size: 2.5rem; }
+  .proj-date-badge {
+    position: absolute; top: .7rem; right: .7rem;
+    background: rgba(11,14,20,.8);
+    border: 1px solid var(--border);
+    font-family: var(--mono); font-size: .65rem; color: var(--accent);
+    padding: .2rem .55rem; border-radius: 4px;
+  }
+  .proj-body { padding: 1.2rem 1.3rem; }
+  .proj-body h4 { font-family: var(--syne); font-weight: 700; font-size: .95rem; line-height: 1.35; margin-bottom: .55rem; }
+  .proj-body p { color: var(--muted); font-size: .83rem; line-height: 1.6; margin-bottom: .8rem; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .proj-tag {
+    background: rgba(91,140,255,.1);
+    border: 1px solid rgba(91,140,255,.2);
+    color: var(--accent2);
+    font-family: var(--mono); font-size: .65rem;
+    padding: .15rem .5rem; border-radius: 4px;
+  }
+  .proj-link { display: inline-flex; align-items: center; gap: .3rem; margin-top: .8rem; font-size: .8rem; color: var(--accent); }
+
+  /* ═══════════════════════════════════════════
+     CONFERENCE
+  ═══════════════════════════════════════════ */
+  .conf-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .conf-stat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 1rem 1.5rem; text-align: center;
+  }
+  .conf-stat .num { font-family: var(--syne); font-size: 2rem; font-weight: 800; color: var(--accent); }
+  .conf-stat .lbl { font-size: .78rem; color: var(--muted); }
+  .conf-list { display: flex; flex-direction: column; gap: 1.2rem; }
+  .conf-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 1.3rem 1.5rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    transition: border-color .2s;
+  }
+  .conf-item:hover { border-color: rgba(61,255,192,.2); }
+  .conf-badge {
+    flex-shrink: 0; padding: .3rem .7rem;
+    border-radius: 6px; font-family: var(--mono); font-size: .7rem;
+    font-weight: 500; text-transform: uppercase; letter-spacing: .05em;
+    text-align: center; min-width: 60px;
+  }
+  .badge-oral { background: rgba(61,255,192,.12); color: var(--accent); border: 1px solid rgba(61,255,192,.25); }
+  .badge-poster { background: rgba(91,140,255,.12); color: var(--accent2); border: 1px solid rgba(91,140,255,.25); }
+  .badge-trip { background: rgba(255,107,107,.12); color: var(--accent3); border: 1px solid rgba(255,107,107,.25); }
+  .conf-content h5 { font-family: var(--syne); font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+  .conf-content .conf-loc { font-size: .8rem; color: var(--muted); margin-bottom: .4rem; }
+  .conf-content .conf-pres { font-size: .83rem; color: var(--text); font-style: italic; }
+
+  /* ═══════════════════════════════════════════
+     TRAINING
+  ═══════════════════════════════════════════ */
+  .training-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .training-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 1.3rem 1.4rem;
+    transition: border-color .2s, transform .2s;
+  }
+  .training-card:hover { border-color: rgba(61,255,192,.2); transform: translateY(-3px); }
+  .training-card .t-year {
+    font-family: var(--mono); font-size: .72rem; color: var(--accent);
+    margin-bottom: .5rem;
+  }
+  .training-card h5 { font-family: var(--syne); font-weight: 700; font-size: .93rem; margin-bottom: .3rem; }
+  .training-card .t-org { font-size: .78rem; color: var(--muted); margin-bottom: .6rem; }
+  .training-card .t-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+  .training-card .t-tag {
+    display: inline-block; margin-top: .8rem;
+    background: rgba(61,255,192,.08); border: 1px solid rgba(61,255,192,.2);
+    color: var(--accent); font-family: var(--mono); font-size: .68rem;
+    padding: .15rem .55rem; border-radius: 4px;
+  }
+
+  /* ═══════════════════════════════════════════
+     AWARDS
+  ═══════════════════════════════════════════ */
+  .awards-list { display: flex; flex-direction: column; gap: .9rem; }
+  .award-row {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 1rem 1.4rem;
+    display: flex; align-items: center; gap: 1.2rem;
+    transition: border-color .2s;
+  }
+  .award-row:hover { border-color: rgba(255,107,107,.25); }
+  .award-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .award-body h5 { font-family: var(--syne); font-weight: 700; font-size: .93rem; }
+  .award-body p { color: var(--muted); font-size: .82rem; }
+  .award-year {
+    margin-left: auto; font-family: var(--mono); font-size: .72rem;
+    color: var(--accent3); background: rgba(255,107,107,.08);
+    border: 1px solid rgba(255,107,107,.2);
+    padding: .2rem .6rem; border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     AFFILIATIONS
+  ═══════════════════════════════════════════ */
+  .aff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .aff-group h4 { font-family: var(--syne); font-size: .8rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 1rem; }
+  .aff-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: .9rem 1.1rem;
+    margin-bottom: .8rem;
+    transition: border-color .2s;
+  }
+  .aff-item:hover { border-color: rgba(91,140,255,.25); }
+  .aff-item h5 { font-family: var(--syne); font-weight: 700; font-size: .88rem; margin-bottom: .2rem; }
+  .aff-item .aff-role { font-size: .8rem; color: var(--accent2); }
+  .aff-item .aff-dates { font-size: .75rem; color: var(--muted); font-family: var(--mono); margin-top: .2rem; }
+
+  /* ═══════════════════════════════════════════
+     CONTACT
+  ═══════════════════════════════════════════ */
+  #contact { background: var(--bg); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .contact-info-cards { display: flex; flex-direction: column; gap: .9rem; }
+  .ci-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 1rem 1.3rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+  }
+  .ci-icon { font-size: 1.3rem; margin-top: .1rem; }
+  .ci-card h5 { font-family: var(--syne); font-weight: 600; font-size: .78rem; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .2rem; }
+  .ci-card p, .ci-card a { font-size: .88rem; color: var(--text); }
+  .contact-form { display: flex; flex-direction: column; gap: .9rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+  .form-group { display: flex; flex-direction: column; gap: .4rem; }
+  .form-group label { font-size: .78rem; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  .form-group input, .form-group textarea {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: .7rem 1rem;
+    color: var(--text); font-family: var(--dm); font-size: .9rem;
+    outline: none; transition: border-color .2s;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-submit { align-self: flex-start; }
+
+  /* ═══════════════════════════════════════════
+     QUOTE / FOOTER
+  ═══════════════════════════════════════════ */
+  #quote-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 3rem;
+    text-align: center;
+  }
+  #quote-bar blockquote {
+    font-family: var(--syne); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-style: italic; font-weight: 600;
+    color: var(--text); max-width: 700px; margin: 0 auto 1rem;
+    line-height: 1.5;
+  }
+  #quote-bar blockquote::before { content: '"'; color: var(--accent); font-size: 2em; line-height: 0; vertical-align: -.3em; }
+  #quote-bar blockquote::after  { content: '"'; color: var(--accent); font-size: 2em; line-height: 0; vertical-align: -.3em; }
+  #quote-bar cite { font-family: var(--mono); font-size: .78rem; color: var(--accent); letter-spacing: .08em; }
+  footer {
+    background: var(--bg); padding: 1.5rem 3rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  footer p { font-size: .8rem; color: var(--muted); }
+  .social-links { display: flex; gap: .8rem; }
+  .social-link {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--card); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .95rem; color: var(--muted);
+    transition: .2s;
+  }
+  .social-link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
+  /* ═══════════════════════════════════════════
+     BACK TO TOP
+  ═══════════════════════════════════════════ */
+  #btt {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+    width: 42px; height: 42px; border-radius: 8px;
+    background: var(--accent); color: #0b0e14;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700;
+    opacity: 0; pointer-events: none; transition: opacity .3s;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(61,255,192,.3);
+  }
+  #btt.show { opacity: 1; pointer-events: all; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    #navbar { padding: .9rem 1.5rem; }
+    #navbar nav { display: none; position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--bg); flex-direction: column; padding: 1rem 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border); gap: 1rem; }
+    #navbar nav.open { display: flex; }
+    .hamburger { display: flex; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-sidebar { order: -1; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .aff-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    #hero { padding: 6rem 1.5rem 3rem; }
+    .conf-item { flex-direction: column; }
+    .award-row { flex-wrap: wrap; }
+    .award-year { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ───────────── NAV ───────────── -->
+<header id="navbar">
+  <div class="logo">AA</div>
+  <nav id="nav-menu">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#portfolio">Projects</a>
+    <a href="#conference">Conferences</a>
+    <a href="#training">Training</a>
+    <a href="#awards">Awards</a>
+    <a href="#affiliations">Affiliations</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hamburger" id="ham" onclick="document.getElementById('nav-menu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- ───────────── HERO ───────────── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-chip">Open to Work</div>
+    <h1 class="hero-name"><span>AAA</span></h1>
+    <p class="hero-tagline">GIS Professional specializing in <strong>Python‑based Automation</strong> &amp; <strong>Advanced Geospatial Analytics</strong></p>
+    <div class="typewriter-wrap" id="typewriter"></div>
+    <div class="hero-edu">
+      <p><strong>M.S. in [Your Degree] – [Your Field]</strong></p>
+      <p>[Start Year] – Present · [Your University], [City, Country]</p>
+      <p style="margin-top:.5rem"><strong>B.E./B.Sc. in [Your Undergraduate Degree]</strong></p>
+      <p>[Start Year] – [End Year] · [Your Institution], [City, Country]</p>
+    </div>
+    <div class="hero-pills">
+      <div class="pill"><strong>Automation:</strong> PyQGIS · Python · R</div>
+      <div class="pill"><strong>Analytics:</strong> RFE · Deep Learning · Time‑Series</div>
+      <div class="pill"><strong>Web:</strong> Streamlit · Leaflet · AGOL</div>
+      <div class="pill"><strong>Engineering:</strong> CAD/GIS · RTK‑GNSS · HEC‑RAS</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn btn-primary">View Projects ↓</a>
+      <a href="#contact" class="btn btn-ghost">Contact Me</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ───────────── ABOUT ───────────── -->
+<section id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// About</span>
+      <h2 class="section-title">About Me</h2>
+      <p class="section-desc">GIS professional bridging precision engineering and environmental data science.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I am a GIS professional specializing in the integration of <strong>Advanced GIS</strong>, <strong>Machine Learning</strong>, and <strong>Remote Sensing</strong> to solve complex environmental and infrastructural challenges. Currently pursuing an <strong>M.S. in [Your Degree]</strong> at <strong>[Your University]</strong>, I transform raw spatial data into high‑fidelity, actionable intelligence through automated workflows and rigorous ML/statistical modeling. My work focuses on <strong>geospatial data science</strong> and <strong>ecological research</strong>, applying quantitative tools to address interdisciplinary environmental questions.</p>
+        <p>My expertise bridges the gap between <strong>Precision Engineering</strong> and <strong>Environmental Data Science</strong>. I leverage the full <strong>Open-Source GIS Stack (QGIS/Online/GRASS GIS)</strong> alongside <strong>Python (PyQGIS)</strong> and <strong>R</strong> to build reproducible geospatial solutions — from custom Python toolboxes for geodatabase management to deploying <strong>Deep Learning (DAE)</strong> for hyperspectral denoising.</p>
+        <h3>Key Technical Pillars</h3>
+        <div class="about-pillars">
+          <div class="pillar"><strong>Advanced GIS &amp; Automation</strong><span>Expert in QGIS and GRASS GIS, specializing in PyQGIS scripting, QGIS Model Designer, and custom toolbox development to automate repetitive spatial tasks.</span></div>
+          <div class="pillar"><strong>Remote Sensing &amp; Cloud Computing</strong><span>Proficient in Google Earth Engine (GEE), ENVI, and SNAP for time‑series analysis, disaster mapping (Flood/Fire), and multispectral/UAV‑hyperspectral processing.</span></div>
+          <div class="pillar"><strong>Web GIS &amp; Visualization</strong><span>Experienced in developing interactive Web Maps (Leaflet/Streamlit), Grafana / Kibana, and Apache Superset reports to communicate complex spatial insights.</span></div>
+          <div class="pillar"><strong>Geospatial Engineering</strong><span>Strong foundation in CAD/GIS integration, RTK‑GNSS surveying, and hydrological modeling (HEC‑RAS/Arc‑Hydro) for infrastructure and terrain analysis.</span></div>
+        </div>
+      </div>
+      <div class="about-sidebar reveal">
+        <div class="profile-card">
+          <div class="profile-card-img">AA</div>
+          <div class="profile-card-body">
+            <h4>AAA</h4>
+            <p>GIS Practitioner · Remote Sensing Researcher</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <h4>Contact</h4>
+          <div class="contact-row"><span class="contact-icon">📍</span><span>[Your City, Country]</span></div>
+          <div class="contact-row"><span class="contact-icon">📞</span><a href="tel:+0000000000">[Your Phone Number]</a></div>
+          <div class="contact-row"><span class="contact-icon">🎓</span><a href="mailto:your.academic@university.edu">your.academic@university.edu</a></div>
+          <div class="contact-row"><span class="contact-icon">✉️</span><a href="mailto:your.personal@email.com">your.personal@email.com</a></div>
+        </div>
+        <div class="contact-card">
+          <h4>Collaboration Focus</h4>
+          <p style="font-size:.83rem;color:var(--muted)">Open to collaborations combining field data, remote sensing, and statistical modeling for impactful environmental outcomes in forest data science and geo-spatial analysis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── SKILLS ───────────── -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Skills</span>
+      <h2 class="section-title">Skills &amp; Expertise</h2>
+      <p class="section-desc">Technical competencies in geospatial analytics, remote sensing, machine learning, programming, and field data collection.</p>
+    </div>
+    <div class="skills-tabs reveal" id="skills-tabs">
+      <button class="tab-btn active" data-tab="gis">GIS &amp; Spatial</button>
+      <button class="tab-btn" data-tab="web">Web GIS</button>
+      <button class="tab-btn" data-tab="rs">Remote Sensing</button>
+      <button class="tab-btn" data-tab="ml">ML &amp; DL</button>
+      <button class="tab-btn" data-tab="prog">Programming</button>
+      <button class="tab-btn" data-tab="survey">Surveying</button>
+      <button class="tab-btn" data-tab="hydro">Hydrology</button>
+      <button class="tab-btn" data-tab="field">Field</button>
+    </div>
+    <div id="tab-gis" class="tab-panel active reveal">
+      <div class="skill-group"><div class="skill-group-title">Software</div><div class="skill-tags"><span class="stag">QGIS (PyQGIS)</span><span class="stag">GeoServer / OpenLayers</span><span class="stag">GRASS GIS</span><span class="stag">QGIS</span><span class="stag">Global Mapper</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Analytics</div><div class="skill-tags"><span class="stag">Hybrid RFE</span><span class="stag">MCE</span><span class="stag">Hotspot (KDE)</span><span class="stag">Global Moran's I</span><span class="stag">MaxEnt</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Automation</div><div class="skill-tags"><span class="stag">Python Toolbox Dev</span><span class="stag">PyQGIS Scripting</span><span class="stag">Batch Geoprocessing</span><span class="stag">ModelBuilder</span></div></div>
+    </div>
+    <div id="tab-web" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Web Mapping</div><div class="skill-tags"><span class="stag">GeoServer / OpenLayers</span><span class="stag">Leaflet</span><span class="stag">Streamlit</span><span class="stag">Interactive Web Maps</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Dashboards</div><div class="skill-tags"><span class="stag">Grafana / Kibana</span><span class="stag">Apache Superset</span><span class="stag">MapLibre StoryMap</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Design</div><div class="skill-tags"><span class="stag">High‑fidelity Cartography</span><span class="stag">Inkscape / GIMP</span></div></div>
+    </div>
+    <div id="tab-rs" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Platforms</div><div class="skill-tags"><span class="stag">Google Earth Engine</span><span class="stag">ENVI</span><span class="stag">SNAP Toolbox</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Sensors</div><div class="skill-tags"><span class="stag">UAV‑Hyperspectral</span><span class="stag">Sentinel‑2</span><span class="stag">Landsat 8/9</span><span class="stag">MODIS</span><span class="stag">LiDAR</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Processing</div><div class="skill-tags"><span class="stag">Time‑Series Analysis</span><span class="stag">NDVI / MNDWI / NDBI</span></div></div>
+    </div>
+    <div id="tab-ml" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Deep Learning</div><div class="skill-tags"><span class="stag">Denoising Autoencoders (DAE)</span><span class="stag">CNN</span><span class="stag">SAM2</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">ML Algorithms</div><div class="skill-tags"><span class="stag">Random Forest</span><span class="stag">SVM</span><span class="stag">Gradient Boosting</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Optimization</div><div class="skill-tags"><span class="stag">PCA / VSURF</span><span class="stag">Hyperparameter Tuning</span><span class="stag">Cross‑Validation</span></div></div>
+    </div>
+    <div id="tab-prog" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Python</div><div class="skill-tags"><span class="stag">TensorFlow</span><span class="stag">Keras</span><span class="stag">Scikit‑learn</span><span class="stag">Pandas</span><span class="stag">NumPy</span><span class="stag">GDAL / Rasterio</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">R</div><div class="skill-tags"><span class="stag">caret</span><span class="stag">ggplot2</span><span class="stag">dplyr</span><span class="stag">tidyr</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Data Systems</div><div class="skill-tags"><span class="stag">SQL</span><span class="stag">GitHub</span><span class="stag">LibreOffice Calc</span></div></div>
+    </div>
+    <div id="tab-survey" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Photogrammetry</div><div class="skill-tags"><span class="stag">OpenDroneMap (ODM)</span><span class="stag">MicMac / ODM</span><span class="stag">LiDAR Interpolation</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Deliverables</div><div class="skill-tags"><span class="stag">Point‑Cloud Classification</span><span class="stag">Ground Filtering</span><span class="stag">DSM / DTM / DEM</span><span class="stag">3D Mesh</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">CAD &amp; Design</div><div class="skill-tags"><span class="stag">FreeCAD / LibreCAD</span><span class="stag">QGIS 3D / FreeCAD</span><span class="stag">Blueprint Interpretation</span></div></div>
+    </div>
+    <div id="tab-hydro" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Modeling</div><div class="skill-tags"><span class="stag">HEC‑RAS</span><span class="stag">Arc‑Hydro</span><span class="stag">Watershed Delineation</span><span class="stag">Floodplain Mapping</span><span class="stag">Catchment Analysis</span></div></div>
+    </div>
+    <div id="tab-field" class="tab-panel reveal">
+      <div class="skill-group"><div class="skill-group-title">Field Hardware</div><div class="skill-tags"><span class="stag">D‑GNSS (RTK)</span><span class="stag">Total Station</span><span class="stag">Bathymetric Sensors</span><span class="stag">UAV Operations</span></div></div>
+      <div class="skill-group"><div class="skill-group-title">Mobile Collection</div><div class="skill-tags"><span class="stag">KoboToolbox / ODK</span><span class="stag">KoboCollect</span><span class="stag">Field Maps</span><span class="stag">OSMTracker</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── EXPERIENCE ───────────── -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Experience</span>
+      <h2 class="section-title">Work Experience</h2>
+      <p class="section-desc">Blending geospatial science, remote sensing, and fieldwork across research, teaching, and professional roles.</p>
+    </div>
+    <div class="timeline reveal">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">Aug 2024 – Present</span><span class="tl-type">Research</span></div>
+        <div class="tl-title">Graduate Research Assistant</div>
+        <div class="tl-org">[Your University] — Department of [Your Department]</div>
+        <ul class="tl-list">
+          <li>Develop <strong>Python (PyQGIS) automation</strong> to streamline data cleaning and geoprocessing of multi‑terabyte UAV, LiDAR, and satellite datasets.</li>
+          <li>Build predictive modeling workflows using <strong>ML (Random Forest, XGBoost, PLSR)</strong> on 270‑band UAV hyperspectral imagery to quantify photosynthesis and nitrogen traits in <em>Populus deltoides</em>.</li>
+          <li>Optimize signal‑to‑noise ratios using <strong>deep learning denoising autoencoders (DAEs)</strong> and execute feature selection algorithms (VSURF, Hybrid‑RFE).</li>
+          <li>Translate complex spatial analytics into <strong>peer‑reviewed manuscripts</strong>, reproducible GitHub repositories, and national conference presentations.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">Dec 2023 – Apr 2024</span><span class="tl-type">Teaching</span></div>
+        <div class="tl-title">GIS Instructor &amp; Program Coordinator</div>
+        <div class="tl-org">[Your Institution], [City, Country]</div>
+        <ul class="tl-list">
+          <li>Directed technical operations and curriculum for a <strong>Geomatics Engineering program</strong>, providing GIS and Remote Sensing instruction.</li>
+          <li>Guided engineering field surveys and terrain modeling projects, integrating <strong>GPS‑derived data, FreeCAD / LibreCAD drawings</strong>, and legal land records into GIS databases.</li>
+          <li>Standardized mobile data collection workflows using <strong>QField (QGIS Mobile) and KoboToolbox / ODK</strong> for local infrastructure projects.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">May 2023 – Jun 2023</span><span class="tl-type">Survey</span></div>
+        <div class="tl-title">Survey Engineer</div>
+        <div class="tl-org">[Project Name], [City, Country]</div>
+        <ul class="tl-list">
+          <li>Led a <strong>10‑person field team</strong> to perform high‑precision topographic surveys across challenging terrain for high‑dam infrastructure planning.</li>
+          <li>Executed terrain and catchment analysis using <strong>Arc‑Hydro and HEC‑RAS</strong> to simulate water flow, map inundation zones, and evaluate site feasibility.</li>
+          <li>Created comprehensive <strong>GIS reports and technical sketches</strong> to support final dam site selection and environmental risk assessment.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">May 2021 – Feb 2023</span><span class="tl-type">Teaching</span></div>
+        <div class="tl-title">GIS Trainer</div>
+        <div class="tl-org">[Your Organization], [Institution]</div>
+        <ul class="tl-list">
+          <li>Built and delivered hands‑on <strong>GIS workshops</strong> for agriculture students covering data preprocessing, georeferencing, and map design.</li>
+          <li>Trained students in <strong>spatial interpolation and hydrological modeling</strong> to analyze local watersheds for data‑driven agricultural planning.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">Dec 2022 – Jan 2023</span><span class="tl-type">Internship</span></div>
+        <div class="tl-title">Intern – Remote Sensing for Disaster Management</div>
+        <div class="tl-org">[Your Organization], [Location] (Virtual)</div>
+        <ul class="tl-list">
+          <li>Explored <strong>satellite‑driven hazard mapping</strong> workflows, focusing on bulk data assimilation for multi‑source remote sensing disaster monitoring.</li>
+          <li>Studied <strong>neural network‑based risk models</strong> integrating Weather Research and Forecasting (WRF) meteorological datasets.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-meta"><span class="tl-date">Aug 21–27, 2022</span><span class="tl-type">Program</span></div>
+        <div class="tl-title">International Geoinformatics Summer School</div>
+        <div class="tl-org">[Institution Name], [University]</div>
+        <ul class="tl-list">
+          <li>Advanced training in disaster monitoring, night‑light analysis, and smart‑city geoinformatics.</li>
+          <li>Explored integration of <strong>point clouds and photogrammetry</strong> for cultural heritage applications.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── PROJECTS ───────────── -->
+<section id="portfolio">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Projects</span>
+      <h2 class="section-title">Applied Projects</h2>
+      <p class="section-desc">Research and technical projects in geospatial analytics, remote sensing, machine learning, and environmental modeling.</p>
+    </div>
+    <div class="proj-grid reveal">
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🗺️</span>
+          <span class="proj-date-badge">Mar 2026</span>
+        </div>
+        <div class="proj-body">
+          <h4>CanopyGRID — Urban Forestry Utility Vegetation Encroachment Risk Web Map (Vancouver, BC)</h4>
+          <p>GIS‑driven decision support workflow integrating urban tree inventory, powerline corridors, and critical facilities. Delivered interactive Streamlit web map and Plotly dashboard for vegetation‑risk prioritization.</p>
+          <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span><span class="proj-tag">Folium</span><span class="proj-tag">GeoPandas</span><span class="proj-tag">OSMnx</span></div>
+          <a class="proj-link" href="https://arborgrid-poc2wtdb5akp8vyaah2pcw.streamlit.app/" target="_blank">Live Web App ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🌳</span>
+          <span class="proj-date-badge">Feb 2026</span>
+        </div>
+        <div class="proj-body">
+          <h4>Clone‑Level Identification of Poplar Hybrids Using UAV Hyperspectral Data &amp; ML</h4>
+          <p>High‑accuracy classification pipeline differentiating poplar hybrids at taxonomic and clone levels. Achieved <strong>89.47% OA</strong> and Kappa of 0.84 using PCA + Random Forest.</p>
+          <div class="proj-tags"><span class="proj-tag">QGIS</span><span class="proj-tag">Scikit‑learn</span><span class="proj-tag">PCA</span><span class="proj-tag">VSURF</span><span class="proj-tag">UAV Hyperspectral</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🌿</span>
+          <span class="proj-date-badge">Nov 2025</span>
+        </div>
+        <div class="proj-body">
+          <h4>Predicting Gross Primary Productivity (GPP) Using Landsat &amp; Meteorological Data</h4>
+          <p>ML pipeline combining Landsat 8/9 imagery with weather and elevation data. Integrating environmental variables <strong>doubled model accuracy</strong> (R² from 0.27 to 0.54).</p>
+          <div class="proj-tags"><span class="proj-tag">Google Earth Engine</span><span class="proj-tag">R</span><span class="proj-tag">Random Forest</span><span class="proj-tag">Gradient Boosting</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🔬</span>
+          <span class="proj-date-badge">May 2025</span>
+        </div>
+        <div class="proj-body">
+          <h4>Denoising UAV‑Borne Hyperspectral Imagery: A Deep Learning Approach</h4>
+          <p>Deep learning Denoising Autoencoder (DAE) to clean 270‑band hyperspectral signals. Best improvements in <strong>Red‑edge to NIR region (700–900 nm)</strong>.</p>
+          <div class="proj-tags"><span class="proj-tag">Keras</span><span class="proj-tag">TensorFlow</span><span class="proj-tag">DAE</span><span class="proj-tag">Python</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🔥</span>
+          <span class="proj-date-badge">Sep 2024</span>
+        </div>
+        <div class="proj-body">
+          <h4>Spatial Analysis of Wildfire Incidents in the United States (2014–2024)</h4>
+          <p>Comprehensive geospatial analysis of US wildfire patterns. Confirmed non‑random clustering with z‑score of <strong>3.64 (p &lt; 0.001)</strong>. Identified persistent hotspots in CA, OR, WA, AZ, MT.</p>
+          <div class="proj-tags"><span class="proj-tag">QGIS</span><span class="proj-tag">QGIS</span><span class="proj-tag">SQL</span><span class="proj-tag">KDE</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🦌</span>
+          <span class="proj-date-badge">Sep 2024</span>
+        </div>
+        <div class="proj-body">
+          <h4>Habitat Suitability Mapping — White‑Tailed Deer (Sunflower County, MS)</h4>
+          <p>MaxEnt‑based habitat prediction with Python PyQGIS automation. Achieved exceptional <strong>AUC of 0.994</strong>. Optimal deer proximity: 45 m from water bodies.</p>
+          <div class="proj-tags"><span class="proj-tag">MaxEnt</span><span class="proj-tag">PyQGIS</span><span class="proj-tag">GeoPandas</span><span class="proj-tag">NLCD</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">⛰️</span>
+          <span class="proj-date-badge">2023 · Thesis</span>
+        </div>
+        <div class="proj-body">
+          <h4>Precipitation Forecasting Using Satellite Data: A Deep Learning Approach</h4>
+          <p>Univariate and multivariate LSTM models for short‑term rainfall forecasting in Sarangkot, Pokhara. Multivariate LSTM achieved <strong>RMSE 0.0790</strong> vs. 0.8408 for univariate.</p>
+          <div class="proj-tags"><span class="proj-tag">LSTM</span><span class="proj-tag">Python</span><span class="proj-tag">Satellite Data</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🌊</span>
+          <span class="proj-date-badge">Jun 2022</span>
+        </div>
+        <div class="proj-body">
+          <h4>Flood Susceptibility Mapping Using Landsat &amp; Multi‑Criteria Evaluation</h4>
+          <p>Flood susceptibility maps for Nepal's Western Development Region using MCE and weighted overlay methods integrating Landsat imagery with hydrological and environmental factors.</p>
+          <div class="proj-tags"><span class="proj-tag">QGIS</span><span class="proj-tag">Landsat</span><span class="proj-tag">MCE</span><span class="proj-tag">Raster Analysis</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🛰️</span>
+          <span class="proj-date-badge">Apr 2022</span>
+        </div>
+        <div class="proj-body">
+          <h4>Land Use Land Cover (LULC) Analysis &amp; QA/QC Post‑Classification</h4>
+          <p>High‑resolution 10 m eight‑class land cover map for Nepal's Western Development Region using Sentinel‑2 imagery and 100‑tree Random Forest classifier.</p>
+          <div class="proj-tags"><span class="proj-tag">Sentinel‑2</span><span class="proj-tag">Random Forest</span><span class="proj-tag">NDVI/NDBI</span><span class="proj-tag">GEE</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <span class="proj-thumb-fallback">🔥</span>
+          <span class="proj-date-badge">Feb 2022</span>
+        </div>
+        <div class="proj-body">
+          <h4>National‑Scale Burn Severity Mapping for Nepal</h4>
+          <p>Automated Google Earth Engine tool using Sentinel‑2 dNBR analysis with topographic filtering. High‑resolution national‑scale map classifying burn severity into four categories.</p>
+          <div class="proj-tags"><span class="proj-tag">Google Earth Engine</span><span class="proj-tag">Sentinel‑2</span><span class="proj-tag">SRTM</span><span class="proj-tag">NBR/dNBR</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── CONFERENCE ───────────── -->
+<section id="conference">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Conferences</span>
+      <h2 class="section-title">Conference &amp; Participation</h2>
+    </div>
+    <div class="conf-stats reveal">
+      <div class="conf-stat"><div class="num">4</div><div class="lbl">Oral Presentations</div></div>
+      <div class="conf-stat"><div class="num">3</div><div class="lbl">Poster Presentations</div></div>
+      <div class="conf-stat"><div class="num">1</div><div class="lbl">Field Events</div></div>
+    </div>
+    <div class="conf-list reveal">
+      <div class="conf-item">
+        <div class="conf-badge badge-oral">Oral</div>
+        <div class="conf-content">
+          <h5>American Geophysical Union (AGU) 2025</h5>
+          <div class="conf-loc">📍 [City / Venue, Country] · December 15–19, 2025</div>
+          <div class="conf-pres">Estimating Photosynthetic Traits in Populus deltoides and Its Hybrids Using UAV‑Based Hyperspectral Imaging and Machine Learning</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-oral">Oral</div>
+        <div class="conf-content">
+          <h5>Mississippi Water &amp; Energy Conference 2025</h5>
+          <div class="conf-loc">📍 [City / Venue, Country] · October 28–30, 2025</div>
+          <div class="conf-pres">Estimating Water Use Efficiency and Related Traits in Populus deltoides and Its Hybrids Using UAV‑Based Hyperspectral Imaging</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-poster">Poster</div>
+        <div class="conf-content">
+          <h5>[Conference / Convention Name] 2025</h5>
+          <div class="conf-loc">📍 [City / Venue, Country] · October 22–25, 2025</div>
+          <div class="conf-pres">Predicting Leaf Area in Eastern Cottonwood and Poplar Hybrids Using Allometric and Site Data Across Diverse Experimental Sites</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-oral">Oral</div>
+        <div class="conf-content">
+          <h5>Graduate Research Symposium 2025 — Oral</h5>
+          <div class="conf-loc">📍 Mississippi State University · October 18, 2025</div>
+          <div class="conf-pres">Quantifying Key Photosynthetic Traits in Populus deltoides and Its Hybrids Utilizing UAV‑Based Hyperspectral Techniques</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-poster">Poster</div>
+        <div class="conf-content">
+          <h5>Graduate Research Symposium 2025 — Poster</h5>
+          <div class="conf-loc">📍 Mississippi State University · October 18, 2025</div>
+          <div class="conf-pres">Denoising UAV‑Based Hyperspectral Imagery: A Deep Learning Approach</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-poster">Poster</div>
+        <div class="conf-content">
+          <h5>Graduate Research Symposium 2025 — February</h5>
+          <div class="conf-loc">📍 Mississippi State University · February 15, 2025</div>
+          <div class="conf-pres">Modeling Leaf Area in Eastern Cottonwood and Poplar Hybrids Using Allometric Relationships Across Diverse Experimental Sites</div>
+        </div>
+      </div>
+      <div class="conf-item">
+        <div class="conf-badge badge-trip">Trip</div>
+        <div class="conf-content">
+          <h5>UA Forest Stewards Guild Canoe Trip</h5>
+          <div class="conf-loc">📍 Cahaba River, Tuscaloosa, Alabama · March 22, 2025</div>
+          <div class="conf-pres">Forestry‑focused canoe trip exploring how forest management influences river and stream ecosystems.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── TRAINING ───────────── -->
+<section id="training">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Training</span>
+      <h2 class="section-title">Training &amp; Certification</h2>
+      <p class="section-desc">Workshops, technical trainings, and certifications that strengthened teaching, geospatial skills, and climate leadership.</p>
+    </div>
+    <div class="training-grid reveal">
+      <div class="training-card">
+        <div class="t-year">2024/25</div>
+        <h5>GTA Workshop — Level 1 &amp; 2</h5>
+        <div class="t-org">[Your University]</div>
+        <div class="t-desc">Advanced teaching strategies, classroom management, and assessment practices for university instructors.</div>
+        <span class="t-tag">Teaching</span>
+      </div>
+      <div class="training-card">
+        <div class="t-year">2023</div>
+        <h5>Global Navigation Satellite System (GNSS)</h5>
+        <div class="t-org">CSSGS / CSIS, University of Tokyo / ICG</div>
+        <div class="t-desc">Hands‑on expertise in static and kinematic positioning for high‑precision satellite‑based surveying and geodetic data collection.</div>
+        <span class="t-tag">GNSS</span>
+      </div>
+      <div class="training-card">
+        <div class="t-year">2022</div>
+        <h5>Differential GPS &amp; Terrestrial LiDAR Scanner</h5>
+        <div class="t-org">CSSGS, Nepal / University Grant Commission</div>
+        <div class="t-desc">Processed spatial data using RTKLIB via Static, RTK, and DGPS methods to achieve centimeter‑level accuracy.</div>
+        <span class="t-tag">Surveying</span>
+      </div>
+      <div class="training-card">
+        <div class="t-year">2022</div>
+        <h5>Basic Google Earth Engine Training</h5>
+        <div class="t-org">GESAN, Nepal</div>
+        <div class="t-desc">Cloud‑based geospatial processing to extract satellite imagery and implement supervised classification for LULC mapping.</div>
+        <span class="t-tag">GEE</span>
+      </div>
+      <div class="training-card">
+        <div class="t-year">2022</div>
+        <h5>Certificate — Remote Mapper</h5>
+        <div class="t-org">[Mapping Organization]</div>
+        <div class="t-desc">Contributed to global community mapping using JOSM to digitize infrastructure and land features within the OpenStreetMap ecosystem.</div>
+        <span class="t-tag">Mapping</span>
+      </div>
+      <div class="training-card">
+        <div class="t-year">2021</div>
+        <h5>Residential Climate Training</h5>
+        <div class="t-org">Nepalese Youths for Climate Action (NYCA)</div>
+        <div class="t-desc">Workshops on climate science, vulnerability assessment, and development of local adaptation strategies.</div>
+        <span class="t-tag">Climate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── AWARDS ───────────── -->
+<section id="awards">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Honors</span>
+      <h2 class="section-title">Honors &amp; Awards</h2>
+    </div>
+    <div class="awards-list reveal">
+      <div class="award-row"><div class="award-icon">🏆</div><div class="award-body"><h5>Woody Crop Scholar</h5><p>[Conference Name]</p></div><div class="award-year">2026</div></div>
+      <div class="award-row"><div class="award-icon">🥈</div><div class="award-body"><h5>Second Place — Poster Presentation</h5><p>[Conference / Convention Name]</p></div><div class="award-year">2025</div></div>
+      <div class="award-row"><div class="award-icon">✈️</div><div class="award-body"><h5>Forestry Graduate Recruitment Travel Grant</h5><p>[Department], [Your University]</p></div><div class="award-year">2025</div></div>
+      <div class="award-row"><div class="award-icon">🎓</div><div class="award-body"><h5>FGSA Travel Grant</h5><p>[Graduate Student Association], [Your University]</p></div><div class="award-year">2025</div></div>
+      <div class="award-row"><div class="award-icon">🏅</div><div class="award-body"><h5>GRAGS Award</h5><p>[Grant Name] — [Your University]</p></div><div class="award-year">2024</div></div>
+      <div class="award-row"><div class="award-icon">⭐</div><div class="award-body"><h5>Bharati Bidhya Padak</h5><p>Batch Topper — [Your School], [Country]</p></div><div class="award-year">2017</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── AFFILIATIONS ───────────── -->
+<section id="affiliations">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Affiliations</span>
+      <h2 class="section-title">Affiliations &amp; Service</h2>
+      <p class="section-desc">Professional memberships, society involvement, and service roles supporting the geospatial and forestry community.</p>
+    </div>
+    <div class="aff-grid reveal">
+      <div class="aff-group">
+        <h4>Professional Affiliations</h4>
+        <div class="aff-item">
+          <h5>[Professional Society], [Country]</h5>
+          <div class="aff-role">General Member</div>
+          <div class="aff-dates">2025</div>
+        </div>
+        <div class="aff-item">
+          <h5>Forestry Graduate Student Association (FGSA), MSU</h5>
+          <div class="aff-role">Secretary</div>
+          <div class="aff-dates">Dec 2024 – May 2025</div>
+        </div>
+        <div class="aff-item">
+          <h5>Geomatics Engineering Students' Association of Nepal (GESAN)</h5>
+          <div class="aff-role">General Member</div>
+          <div class="aff-dates">2018 – 2023</div>
+        </div>
+      </div>
+      <div class="aff-group">
+        <h4>Professional &amp; Community Service</h4>
+        <div class="aff-item">
+          <h5>Moderator — Mississippi Water &amp; Energy Conference 2025</h5>
+          <div class="aff-role">Moderator</div>
+          <div class="aff-dates">30 Oct 2025</div>
+        </div>
+        <div class="aff-item">
+          <h5>University Representative — SAF National Convention, Hartford, CT</h5>
+          <div class="aff-role">University Representative</div>
+          <div class="aff-dates">22–25 Oct 2025</div>
+        </div>
+        <div class="aff-item">
+          <h5>Moderator — Welcome Ceremony for Freshmen, IOE, Pokhara</h5>
+          <div class="aff-role">Moderator</div>
+          <div class="aff-dates">2019</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── CONTACT ───────────── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-label">// Contact</span>
+      <h2 class="section-title">Contact Me</h2>
+      <p class="section-desc">Have a question, collaboration idea, or opportunity? I'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-info-cards">
+        <div class="ci-card"><div class="ci-icon">📍</div><div><h5>Location</h5><p>[Your City, Country]</p></div></div>
+        <div class="ci-card"><div class="ci-icon">📞</div><div><h5>Phone</h5><a href="tel:+0000000000">[Your Phone Number]</a></div></div>
+        <div class="ci-card"><div class="ci-icon">🎓</div><div><h5>Academic Email</h5><a href="mailto:your.academic@university.edu">your.academic@university.edu</a></div></div>
+        <div class="ci-card"><div class="ci-icon">✉️</div><div><h5>Personal Email</h5><a href="mailto:your.personal@email.com">your.personal@email.com</a></div></div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name</label><input type="text" placeholder="John Doe" required/></div>
+          <div class="form-group"><label>Your Email</label><input type="email" placeholder="john@example.com" required/></div>
+        </div>
+        <div class="form-group"><label>Subject</label><input type="text" placeholder="Collaboration inquiry" required/></div>
+        <div class="form-group"><label>Your Message</label><textarea placeholder="Hi AAA, I'd like to discuss..." required></textarea></div>
+        <button type="submit" class="btn btn-primary form-submit">Send Message ✉</button>
+        <p id="form-msg" style="font-size:.82rem;color:var(--accent);display:none;">✓ Message sent! I'll get back to you soon.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── QUOTE ───────────── -->
+<div id="quote-bar">
+  <blockquote>Transforming 'where' into 'why,' so decisions can be mapped before they happen.</blockquote>
+  <cite>— BIPIN PAUDEL</cite>
+</div>
+
+<!-- ───────────── FOOTER ───────────── -->
+<footer>
+  <p>© 2026 AAA · GIS &amp; Remote Sensing Professional · Starkville, MS</p>
+  <div class="social-links">
+    <a class="social-link" href="mailto:your.academic@university.edu" title="Email">✉</a>
+    <a class="social-link" href="https://github.com/yourusername" target="_blank" title="GitHub">⌨</a>
+    <a class="social-link" href="https://www.linkedin.com" target="_blank" title="LinkedIn">in</a>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<div id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</div>
+
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+/* Typewriter */
+const roles = [
+  'GIS Practitioner',
+  'Remote Sensing Researcher',
+  'Geospatial Data Scientist',
+  'Python Automation Expert',
+  'Environmental Modeler',
+];
+let ri = 0, ci = 0, del = false;
+const tw = document.getElementById('typewriter');
+function type() {
+  const word = roles[ri];
+  if (!del) {
+    tw.textContent = word.slice(0, ++ci);
+    if (ci === word.length) { del = true; setTimeout(type, 1800); return; }
+  } else {
+    tw.textContent = word.slice(0, --ci);
+    if (ci === 0) { del = false; ri = (ri + 1) % roles.length; setTimeout(type, 400); return; }
+  }
+  setTimeout(type, del ? 50 : 80);
+}
+type();
+
+/* Scroll reveal */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* Active nav link */
+const sections = document.querySelectorAll('section[id], #quote-bar');
+const navLinks = document.querySelectorAll('#nav-menu a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+  document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
+});
+
+/* Skills tabs */
+document.getElementById('skills-tabs').addEventListener('click', e => {
+  if (!e.target.dataset.tab) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === e.target));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + e.target.dataset.tab));
+});
+
+/* Contact form */
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('form-msg').style.display = 'block';
+  e.target.reset();
+  setTimeout(() => document.getElementById('form-msg').style.display = 'none', 4000);
+}
+</script>
+</body>
+</html>
