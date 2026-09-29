@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name | Portfolio</title>
+<meta name="description" content="Portfolio: projects, experience, presentations and open-source contributions.">
+<style>
+:root{--bg:#f3f6fa;--card:#fff;--ink:#14202e;--muted:#5b6b7b;--line:#dbe3ec;--accent:#1d5fd1;--accent2:#0e8f7e;--onacc:#fff;--hero:#0f2542;--heroink:#eaf1fb}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d141c;--card:#152130;--ink:#e7eef6;--muted:#9db0c3;--line:#26364a;--accent:#5aa2ff;--accent2:#3ccfb8;--onacc:#06121f;--hero:#0a1522}}
+:root[data-theme=dark]{--bg:#0d141c;--card:#152130;--ink:#e7eef6;--muted:#9db0c3;--line:#26364a;--accent:#5aa2ff;--accent2:#3ccfb8;--onacc:#06121f;--hero:#0a1522}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent)}:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif;line-height:1.25;margin:0 0 .5rem}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:56px}
+.logo{font:700 1.1rem Georgia,serif;text-decoration:none;color:var(--ink)}
+#nav{display:flex;gap:.15rem;flex-wrap:wrap}
+#nav a{padding:.35rem .6rem;border-radius:6px;text-decoration:none;color:var(--ink);font-size:.9rem}
+#nav a:hover,#nav a.on{background:var(--accent);color:var(--onacc)}
+.tools{display:flex;gap:.5rem}
+button,.btn{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:.3rem .8rem;border-radius:99px;text-decoration:none;display:inline-block}
+.btn.primary{background:var(--accent);color:var(--onacc);border-color:var(--accent);font-weight:600}
+#menu{display:none}
+#hero{background:var(--hero);color:var(--heroink);padding:3.5rem 0}
+#hero .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:2.5rem;align-items:center}
+#hero h1{font-size:clamp(2rem,5vw,3.2rem);color:#fff}
+.typed{font-size:1.3rem;color:var(--accent2);min-height:2rem;margin:0 0 .75rem}
+.typed b{border-right:2px solid currentColor;padding-right:2px;font-weight:600}
+.badge{display:inline-block;background:#1f9d6b;color:#fff;border-radius:99px;padding:.15rem .8rem;font-size:.85rem;margin-bottom:1rem}
+.edu{margin:.6rem 0;font-size:.95rem}.edu small{display:block;opacity:.8}
+.cats{margin:1rem 0;font-size:.92rem}.cats span{display:block}
+.social{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.social a{color:#fff;border:1px solid rgba(255,255,255,.35);padding:.25rem .8rem;border-radius:99px;text-decoration:none;font-size:.9rem}
+.feat{background:var(--card);color:var(--ink);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.feat img{width:100%;height:240px;object-fit:cover;display:block;background:var(--line)}
+.feat div{padding:1rem;display:flex;gap:.6rem;flex-wrap:wrap}
+section.s{padding:3.5rem 0;border-bottom:1px solid var(--line)}
+.sub{color:var(--muted);max-width:65ch;margin-bottom:1.5rem}
+.two{display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.1rem}
+.profile{text-align:center}.profile img{width:150px;height:150px;border-radius:50%;object-fit:cover;background:var(--line);border:3px solid var(--accent)}
+.profile p{margin:.2rem 0;font-size:.9rem;word-break:break-word}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;padding:0;margin:.4rem 0 .8rem;list-style:none}
+.chips li{padding:.12rem .6rem;border:1px solid var(--line);border-radius:99px;font-size:.83rem;background:var(--bg)}
+.job{border-left:3px solid var(--accent);margin-bottom:1rem}
+.job .when{color:var(--muted);font-size:.9rem}.job ul{padding-left:1.2rem;margin:.4rem 0 0}
+.filters{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+button[aria-pressed=true],button[aria-selected=true]{background:var(--accent);color:var(--onacc);border-color:var(--accent)}
+.projs{display:grid;gap:1.5rem}
+.proj{display:grid;grid-template-columns:300px 1fr;overflow:hidden;padding:0}
+.proj img{width:100%;height:100%;min-height:220px;object-fit:cover;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.proj .body{padding:1.1rem}.date{color:var(--muted);font-size:.85rem}
+.tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin:.6rem 0}.tabs button{font-size:.85rem;padding:.15rem .65rem}
+.pane{font-size:.95rem}
+.stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem}.stats b{font:700 2rem Georgia,serif;color:var(--accent);display:block}
+.shots{display:flex;gap:.4rem;margin-bottom:.6rem}.shots img{width:32%;height:70px;object-fit:cover;border-radius:6px;background:var(--line)}
+.meta{color:var(--muted);font-size:.88rem}
+form{display:grid;gap:.7rem;max-width:520px}
+input,textarea{font:inherit;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);width:100%}
+blockquote{margin:0;padding:2.5rem 0;text-align:center;font:italic 1.3rem Georgia,serif}
+footer{text-align:center;color:var(--muted);font-size:.9rem;padding-bottom:2rem}
+@media(max-width:860px){
+ #hero .wrap,.two,.proj{grid-template-columns:1fr}
+ #menu{display:inline-block}#nav{display:none;position:absolute;top:56px;left:0;right:0;background:var(--card);padding:.5rem 1rem;border-bottom:1px solid var(--line);flex-direction:column}
+ #nav.open{display:flex}.proj img{min-height:180px;height:200px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#hero" id="logo"></a>
+  <nav id="nav" aria-label="Sections"></nav>
+  <div class="tools"><button id="theme" type="button">Theme</button><button id="menu" type="button" aria-label="Menu">Menu</button></div>
+</div></header>
+
+<section id="hero"><div class="wrap">
+  <div>
+    <span class="badge" id="open"></span>
+    <h1 id="name"></h1>
+    <p class="typed">I'm a <b id="typed"></b></p>
+    <p id="tagline"></p>
+    <div id="edu"></div><div class="cats" id="cats"></div>
+    <div class="social" id="social"></div>
+  </div>
+  <div class="feat" id="feat"></div>
+</div></section>
+
+<section class="s" id="about"><div class="wrap"><h2>About Me</h2><div class="two">
+  <div id="aboutText"></div>
+  <aside class="card profile" id="profile"></aside>
+</div></div></section>
+<section class="s" id="skills"><div class="wrap"><h2>Skills &amp; Expertise</h2><p class="sub" id="skillsSub"></p><div class="grid" id="skillList"></div></div></section>
+<section class="s" id="experience"><div class="wrap"><h2>Experience</h2><div id="jobs"></div></div></section>
+<section class="s" id="projects"><div class="wrap"><h2>Projects</h2><p class="sub" id="projSub"></p><div class="filters" id="filters"></div><div class="projs" id="projGrid"></div></div></section>
+<section class="s" id="conference"><div class="wrap"><h2>Conference &amp; Participation</h2><div class="stats" id="stats"></div><div class="grid" id="confList"></div></div></section>
+<section class="s" id="training"><div class="wrap"><h2>Training &amp; Certification</h2><div class="grid" id="trainList"></div></div></section>
+<section class="s" id="awards"><div class="wrap"><h2>Honors &amp; Awards</h2><div class="grid" id="awardList"></div></div></section>
+<section class="s" id="affiliations"><div class="wrap"><h2>Affiliations &amp; Service</h2><div class="grid" id="affList"></div></div></section>
+<section class="s" id="contact"><div class="wrap"><h2>Contact Me</h2><p class="sub">Have a question, collaboration idea or opportunity? I'd love to hear from you.</p>
+  <div class="two"><form id="form"><input id="fs" placeholder="Subject" required><textarea id="fm" rows="5" placeholder="Your message" required></textarea><button class="btn primary" type="submit">Send message</button></form>
+  <div class="card" id="contactCard"></div></div></div></section>
+<blockquote class="wrap" id="quote"></blockquote>
+<footer id="foot"></footer>
+
+<script>
+/* ===== EDIT ONLY THIS BLOCK. Delete any section you do not need. ===== */
+const SITE = {
+  name: "Your Name",
+  roles: ["Data Analyst", "Software Developer", "Researcher"],   // typed in the hero
+  openToWork: "Open to work",                                    // "" hides the badge
+  tagline: "One sentence on what you specialize in.",
+  education: [
+    {degree: "Your degree, field", info: "2024 to present, University, City, Country"},
+    {degree: "Previous degree", info: "2018 to 2022, University, Country"}
+  ],
+  categories: {"Coding": "Python, R, SQL", "Analytics": "Machine learning, statistics", "Visualization": "Dashboards, web apps"},
+  github: "your-username", linkedin: "https://www.linkedin.com/in/your-handle/", youtube: "",
+  email: "you@example.com", phone: "", location: "City, Country",
+  photo: "assets/img/profile.jpg",
+  featured: {img: "assets/img/portfolio/project1.jpg", label: "Featured project", link: "https://your-username.github.io/project-one/"},
+  about: ["Paragraph 1: who you are, what you study or do, and what you care about.", "Paragraph 2: your main strengths, tools and the kind of collaboration you want."],
+  collab: "Describe what kinds of collaboration you welcome.",
+  skillsSub: "Technical competencies across tools, methods and fieldwork.",
+  skills: {
+    "Programming": ["Python", "JavaScript", "SQL", "Git"],
+    "Analysis": ["Pandas", "Scikit-learn", "Statistics"],
+    "Visualization": ["Streamlit", "Power BI", "Matplotlib"]
+  },
+  experience: [
+    {title: "Role title", org: "Organization, City", when: "2024 to present", tag: "Research", points: ["What you did, with a result or number.", "Another achievement."]}
+  ],
+  projSub: "Applied projects with code, data and results.",
+  projects: [
+    {title: "Project one", date: "March 2026", img: "assets/img/portfolio/project1.jpg", tags: ["Python", "Web"],
+     links: [{t: "Live app", u: "https://your-username.github.io/project-one/"}, {t: "Code", u: "https://github.com/your-username/project-one"}],
+     tabs: {Background: "Why the problem matters.", Objective: "What you set out to build or answer.", Methods: "How you did it.", Tools: "Python, Pandas, Streamlit", Outcomes: "Measured result, e.g. accuracy 89%."}},
+    {title: "Project two", date: "January 2026", img: "", tags: ["Data"],
+     links: [{t: "Code", u: "https://github.com/your-username/project-two"}],
+     tabs: {Summary: "A short summary of the project and its outcome."}}
+  ],
+  conferences: [
+    {title: "Presentation title", event: "Conference name", type: "Oral", place: "City, Country", date: "Oct 2025", imgs: []}
+  ],
+  training: [{title: "Certificate or workshop", org: "Issuer", year: "2024", text: "What you learned or achieved."}],
+  awards: [{title: "Award name", org: "Awarding body", year: "2025"}],
+  affiliations: [{title: "Organization", org: "Role", year: "2024 to present"}],
+  quote: "A line that sums up how you work."
+};
+/* ===== END OF EDIT BLOCK ===== */
+
+const $=id=>document.getElementById(id);
+const h=(t,a={},k=[])=>{const e=document.createElement(t);for(const[x,v]of Object.entries(a))x in e?e[x]=v:e.setAttribute(x,v);[].concat(k).forEach(c=>e.append(c));return e};
+const img=(src,alt)=>h("img",{src,alt:alt||"",loading:"lazy",onerror(){this.style.visibility="hidden"}});
+const chips=a=>h("ul",{className:"chips"},a.map(t=>h("li",{textContent:t})));
+const S=SITE;
+document.title=S.name+" | Portfolio";
+$("logo").textContent=S.name;$("name").textContent=S.name;$("tagline").textContent=S.tagline;
+S.openToWork?$("open").textContent=S.openToWork:$("open").remove();
+S.education.forEach(e=>$("edu").append(h("p",{className:"edu"},[h("b",{textContent:e.degree}),h("small",{textContent:e.info})])));
+Object.entries(S.categories).forEach(([k,v])=>$("cats").append(h("span",{},[h("b",{textContent:k+": "}),v])));
+const links=[["LinkedIn",S.linkedin],["GitHub","https://github.com/"+S.github],["YouTube",S.youtube]].filter(x=>x[1]);
+links.forEach(([n,u])=>$("social").append(h("a",{href:u,textContent:n,target:"_blank",rel:"noopener"})));
+$("feat").append(img(S.featured.img,S.featured.label),h("div",{},[h("b",{textContent:S.featured.label}),h("a",{className:"btn primary",href:S.featured.link,textContent:"Open project",target:"_blank",rel:"noopener"}),h("a",{className:"btn",href:"#projects",textContent:"Details"})]));
+
+// sections shown in nav
+const navMap=[["hero","Home"],["about","About"],["skills","Skills"],["experience","Experience"],["projects","Projects"],["conference","Conference"],["training","Training"],["awards","Awards"],["affiliations","Affiliations"],["contact","Contact"]];
+navMap.forEach(([id,t])=>$("nav").append(h("a",{href:"#"+id,textContent:t,onclick(){$("nav").classList.remove("open")}})));
+$("menu").onclick=()=>$("nav").classList.toggle("open");
+
+// typed role
+let ri=0,ci=0,del=false;const ty=$("typed");
+if(matchMedia("(prefers-reduced-motion:reduce)").matches){ty.textContent=S.roles.join(" · ")}else{
+ (function tick(){const w=S.roles[ri];ci+=del?-1:1;ty.textContent=w.slice(0,ci);let d=del?40:80;
+  if(!del&&ci===w.length){del=true;d=1400}else if(del&&ci===0){del=false;ri=(ri+1)%S.roles.length;d=300}setTimeout(tick,d)})()}
+
+// about + profile
+S.about.forEach(t=>$("aboutText").append(h("p",{textContent:t})));
+$("aboutText").append(h("h4",{textContent:"Collaboration focus"}),h("p",{textContent:S.collab}));
+$("profile").append(img(S.photo,"Profile photo"),h("h3",{textContent:S.name}),h("p",{textContent:S.roles[0]}),
+ h("p",{},["Email: ",h("a",{href:"mailto:"+S.email,textContent:S.email})]));
+if(S.phone)$("profile").append(h("p",{textContent:"Phone: "+S.phone}));
+
+// skills
+$("skillsSub").textContent=S.skillsSub;
+Object.entries(S.skills).forEach(([g,a])=>$("skillList").append(h("div",{className:"card"},[h("h3",{textContent:g}),chips(a)])));
+
+// experience
+S.experience.forEach(j=>$("jobs").append(h("div",{className:"card job"},[h("h3",{textContent:j.title}),
+ h("div",{className:"when",textContent:j.org+" · "+j.when+(j.tag?" · "+j.tag:"")}),h("ul",{},j.points.map(p=>h("li",{textContent:p})))])));
+
+// projects
+$("projSub").textContent=S.projSub;
+const tags=["All",...new Set(S.projects.flatMap(p=>p.tags))];let act="All";
+function drawP(){
+ $("filters").replaceChildren(...tags.map(t=>{const b=h("button",{type:"button",textContent:t,onclick(){act=t;drawP()}});b.setAttribute("aria-pressed",t===act);return b}));
+ $("projGrid").replaceChildren(...S.projects.filter(p=>act==="All"||p.tags.includes(act)).map(p=>{
+  const pane=h("div",{className:"pane"}),keys=Object.keys(p.tabs),tb=h("div",{className:"tabs",role:"tablist"});
+  const show=k=>{pane.textContent=p.tabs[k];[...tb.children].forEach(b=>b.setAttribute("aria-selected",b.textContent===k))};
+  keys.forEach(k=>tb.append(h("button",{type:"button",textContent:k,role:"tab",onclick(){show(k)}})));show(keys[0]);
+  return h("article",{className:"card proj"},[img(p.img,p.title),h("div",{className:"body"},[h("div",{className:"date",textContent:p.date}),h("h3",{textContent:p.title}),chips(p.tags),tb,pane,
+   h("p",{},p.links.map(l=>h("a",{className:"btn",href:l.u,textContent:l.t,target:"_blank",rel:"noopener"})))])])}))}
+drawP();
+
+// conferences
+const cnt={};S.conferences.forEach(c=>cnt[c.type]=(cnt[c.type]||0)+1);
+Object.entries(cnt).forEach(([t,n])=>$("stats").append(h("div",{},[h("b",{textContent:n}),t+(n>1?"s":"")])));
+S.conferences.forEach(c=>$("confList").append(h("div",{className:"card"},[
+ c.imgs&&c.imgs.length?h("div",{className:"shots"},c.imgs.slice(0,3).map(i=>img(i,c.event))):"",
+ h("h3",{textContent:c.event}),h("div",{className:"meta",textContent:c.type+" · "+c.place+" · "+c.date}),h("p",{textContent:c.title})])));
+
+// simple card lists
+const list=(id,arr)=>arr.forEach(x=>$(id).append(h("div",{className:"card"},[h("h3",{textContent:x.title}),h("div",{className:"meta",textContent:[x.org,x.year].filter(Boolean).join(" · ")}),x.text?h("p",{textContent:x.text}):""])));
+list("trainList",S.training);list("awardList",S.awards);list("affList",S.affiliations);
+
+// contact
+$("contactCard").append(h("h3",{textContent:"Details"}),h("p",{textContent:S.location}),h("p",{},[h("a",{href:"mailto:"+S.email,textContent:S.email})]));
+$("form").onsubmit=e=>{e.preventDefault();location.href="mailto:"+S.email+"?subject="+encodeURIComponent($("fs").value)+"&body="+encodeURIComponent($("fm").value)};
+$("quote").textContent="“"+S.quote+"”";
+$("foot").textContent="© "+new Date().getFullYear()+" "+S.name;
+
+// theme + active nav
+$("theme").onclick=()=>{const d=getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()==="#0d141c";document.documentElement.dataset.theme=d?"light":"dark"};
+const as=[...document.querySelectorAll("#nav a")];
+navMap.forEach(([id])=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)as.forEach(a=>a.classList.toggle("on",a.hash==="#"+id))}),{rootMargin:"-40% 0px -55% 0px"}).observe($(id)));
+</script>
+</body>
+</html>
